@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:addStatesFromChildren="false"
     tools:context="com.example.amank.edit.MainActivity">
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <EditText
         android:id="@+id/editText"
@@ -15,7 +21,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="28dp"
         android:ems="10"
-        android:hint="Document Name..."
+        android:hint="@string/document_name"
         android:inputType="text"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="16dp" />
@@ -29,7 +35,7 @@
         android:layout_below="@+id/editText"
         android:layout_marginTop="18dp"
         android:ems="10"
-        android:hint="Kitna Mall Dena Hai"
+        android:hint="@string/kitna_mall_dena_hai"
         android:inputType="numberDecimal" />
 
     <EditText
@@ -38,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
         android:ems="10"
-        android:hint="Jama karne ka Din"
+        android:hint="@string/jama_karne_ka_din"
         android:inputType="date"
         android:layout_below="@+id/editText2"
         android:layout_alignLeft="@+id/spinner"
@@ -53,14 +59,16 @@
         android:layout_marginEnd="29dp"
         android:layout_alignBottom="@+id/duedatesecE"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:contentDescription=""
+        tools:ignore="ContentDescription" />
 
     <Spinner
         android:id="@+id/spinner"
         android:layout_width="200dp"
         android:layout_height="40dp"
         android:background="?attr/colorControlHighlight"
-        android:hint="Reminder Date"
+        android:hint="@string/reminder_date"
         android:layout_below="@+id/duedatesecE"
         android:layout_alignLeft="@+id/textView"
         android:layout_alignStart="@+id/textView"
@@ -73,7 +81,7 @@
         android:layout_marginLeft="12dp"
         android:layout_marginStart="12dp"
         android:layout_marginTop="21dp"
-        android:text="Scan Maar Le"
+        android:text="@string/scan_maar_le"
         android:textSize="18sp"
         android:layout_below="@+id/spinner"
         android:layout_alignParentLeft="true"
@@ -90,7 +98,8 @@
         android:onClick="dabaya"
         android:layout_below="@+id/textView"
         android:layout_alignLeft="@+id/textView"
-        android:layout_alignStart="@+id/textView" />
+        android:layout_alignStart="@+id/textView"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/imgdikha"
@@ -99,7 +108,8 @@
         android:layout_alignBottom="@+id/daba"
         android:layout_alignEnd="@+id/webkhol"
         android:layout_alignRight="@+id/webkhol"
-        app:srcCompat="@color/colorPrimaryDark" />
+        app:srcCompat="@android:color/transparent"
+        tools:ignore="ContentDescription" />
 
     <EditText
         android:id="@+id/editText5"
@@ -107,7 +117,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:ems="10"
-        android:hint="Note Daal De"
+        android:hint="@string/note_daal_de"
         android:inputType="textMultiLine"
         android:layout_below="@+id/daba"
         android:layout_alignLeft="@+id/textView"
@@ -126,7 +136,7 @@
         android:layout_below="@+id/editText5"
         android:layout_marginTop="17dp"
         android:ems="10"
-        android:hint="URL daal bina http:// ke"
+        android:hint="@string/url_daal_bina_http_ke"
         android:inputType="textPersonName"
         android:layout_alignRight="@+id/duedatesecE"
         android:layout_alignEnd="@+id/duedatesecE" />
@@ -139,11 +149,12 @@
         app:srcCompat="@android:drawable/ic_menu_send"
         android:layout_above="@+id/linearLayout"
         android:layout_alignLeft="@+id/cal"
-        android:layout_alignStart="@+id/cal" />
+        android:layout_alignStart="@+id/cal"
+        tools:ignore="ContentDescription" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -156,18 +167,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Cancel" />
+            android:text="@string/cancel"
+            tools:ignore="ButtonStyle" />
 
         <Button
             android:id="@+id/button3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Save" />
+            android:text="@string/save"
+            tools:ignore="ButtonStyle" />
     </LinearLayout>
 
-
-
-
-
 </RelativeLayout>
+
+</ScrollView>

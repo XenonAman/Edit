@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">"Edit "</string>
+    <string name="document_name">Document Name...</string>
+    <string name="cancel">Cancel</string>
+    <string name="jama_karne_ka_din">Jama karne ka Din</string>
+    <string name="url_daal_bina_http_ke">URL daal bina http:// ke</string>
+    <string name="kitna_mall_dena_hai">Kitna Mall Dena Hai</string>
+    <string name="note_daal_de">Note Daal De</string>
+    <string name="reminder_date">Reminder Date</string>
+    <string name="save">Save</string>
+    <string name="scan_maar_le">Scan Maar Le</string>
 </resources>
