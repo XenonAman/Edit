@@ -3,14 +3,20 @@ package com.example.amank.edit;
 import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
+import java.util.jar.Manifest;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.view.ActionMode;
@@ -35,18 +41,24 @@ public class MainActivity extends AppCompatActivity
 
     String[] items = new String[] { "On Due date","1 day prior", "2 day prior", "3 day prior","4 day prior","5 day prior","6 day prior","1 week prior" };
     EditText dd,url1;
+    EditText dt,amt;
     ImageButton btn,but;
     public static final int REQUEST_CAPTURE= 1;
     ImageView img1;
+    Button saved;  //for bottom button
+    Button savekar; // for menu bar button
 
     int year_x,month_x,day_x;
     static final int DILOG_ID = 0;
+
+    public  static  DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);     //soft keybord shift
 
         showDialogOnImageButtonClickListener();
@@ -56,11 +68,16 @@ public class MainActivity extends AppCompatActivity
         month_x = tarik.get(Calendar.MONTH);
         day_x = tarik.get(Calendar.DAY_OF_MONTH);
 
-        dd = (EditText) findViewById(R.id.duedatesecE);
-         but =(ImageButton)findViewById(R.id.daba);
-        img1 = (ImageView)findViewById(R.id.imgdikha);
+        //-----------Initiate--------//
 
+        dd = (EditText) findViewById(R.id.duedatesecE);
+        but =(ImageButton)findViewById(R.id.daba);
+        img1 = (ImageView)findViewById(R.id.imgdikha);
+        saved = (Button)findViewById(R.id.savedata);
         url1 = (EditText)findViewById(R.id.urldala);
+
+        databaseHelper = new DatabaseHelper(this);
+        process();
 
 
         if(!hasCamers()){
@@ -73,10 +90,7 @@ public class MainActivity extends AppCompatActivity
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, items);
-
         dynamicSpinner.setAdapter(adapter);
-
-
 
       dynamicSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
           @Override
@@ -102,9 +116,7 @@ public class MainActivity extends AppCompatActivity
     }
     public void showDialogOnImageButtonClickListener()
     {
-
         btn = (ImageButton)findViewById(R.id.cal);
-
         btn.setOnClickListener(
           new View.OnClickListener() {
               @Override
@@ -117,16 +129,29 @@ public class MainActivity extends AppCompatActivity
 
     public void dabaya(View view) {
         Toast.makeText(this, "Camera chalu hone wala hai", Toast.LENGTH_SHORT).show();
-        Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(i,REQUEST_CAPTURE);
+            Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(i,REQUEST_CAPTURE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode==REQUEST_CAPTURE){
-            Bundle extras = data.getExtras();
-            Bitmap photo = (Bitmap)extras.get("data");
-            img1.setImageBitmap(photo);
+        try {
+            if (requestCode == REQUEST_CAPTURE) {
+                Bundle extras = data.getExtras();
+                Log.i("1st", "working");
+                Bitmap photo = (Bitmap) extras.get("data");
+                Log.i("2nd", "working");
+                if (photo != null) {
+                    img1.setImageBitmap(photo);
+                    Log.i("3rd", "working");
+                } else {
+                    Toast.makeText(this, "Something Wrong", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            Toast.makeText(this, "Try Again!", Toast.LENGTH_SHORT).show();
         }
     }
     //--------Camera API ka CODE khatam------------//
@@ -176,6 +201,35 @@ public class MainActivity extends AppCompatActivity
     {
         Intent browserIntent  = new Intent(Intent.ACTION_VIEW, Uri.parse("http://"+url1.getText()));
         startActivity(browserIntent);
+    }
+
+    //----------SAVE Button ka CODE--------------//
+
+
+    public void process() {
+        saved.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    databaseHelper.insertData(dt.getText().toString(),amt.getText().toString(),ImageToByte(img1));
+                    Toast.makeText(getApplicationContext(), "Your DATA Save", Toast.LENGTH_SHORT).show();
+
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "Lag Gaye", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+    }
+
+    private byte[] ImageToByte(ImageView img1) {
+        Bitmap bitmap = ((BitmapDrawable)img1.getDrawable()).getBitmap();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+        return byteArray;
     }
 
 
